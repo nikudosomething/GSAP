@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="zh-hant-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      .box {
+        position: relative;
+        width: 100px;
+        height: 100px;
+        background-color: #ffdf87;
+        margin-bottom: 10px;
+
+        &.box2 {
+          background-color: #f16b6b;
+        }
+      }
+    </style>
+    <title>WAAPI-3</title>
+  </head>
+  <body>
+    <div class="box box1"></div>
+    <div class="box box2"></div>
+
+    <script>
+      const boxs = document.querySelectorAll(".box");
+
+      const ani1 = boxs[0].animate([
+        //[],{} => 變數,設定
+          { left: 0 },
+          { left: "calc(100% - 100px)" },
+          { left: 0 },
+        ],{
+          duration: 2000,
+          iterations: 1,
+        },
+      );
+
+      ani1.onfinish = function(){
+        const ani2 = boxs[1].animate([
+          { left: 0 },
+          { left: "calc(100% - 100px)" },
+          { left: 0 },
+        ],{
+          duration: 2000,
+          iterations: 1,
+        },
+      );
+      }
+    </script>
+  </body>
+</html>
