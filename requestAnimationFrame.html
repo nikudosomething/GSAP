@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      .box {
+        position: relative;
+        width: 100px;
+        height: 100px;
+        background-color: #1496f2;
+        margin-bottom: 10px;
+      }
+    </style>
+    <title>requestAnimationFrame</title>
+  </head>
+  <body>
+    <div class="box box1"></div>
+
+    <script>
+      const box = document.querySelector(".box");
+      let left = 0;
+      // const a1 = setInterval(function () {
+      //   left += 5;
+      //   box.style.left = `${left}px`;
+      //   if (left >= 400) {
+      //     clearInterval(a1);
+      //   }
+      // }, 100);
+
+      requestAnimationFrame(move)
+
+      function move(){
+        if(left < 400){
+          left += 5;
+          box.style.left = `${left}px`;
+        }
+        requestAnimationFrame(move)
+      }
+
+    </script>
+  </body>
+</html>
