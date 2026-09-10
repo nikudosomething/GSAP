@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-hant-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body{
+      height: 100vh;
+    }
+    .btn{
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+      /* width: fit-content;
+      height: fit-content; */
+      width: 100px;
+      height: 40px;
+      background-color: #1098f9;
+      color: #ffffff;
+      text-align: center;
+      line-height: 40px;
+      border-radius: 4px;
+      user-select: none;
+      cursor: pointer;
+      font-family: sans-serif;
+      
+      overflow: hidden;
+
+      .bg{
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 0%;
+        height: 100%;
+        background-color: #1a37ef;
+        transition: background-color 0.2s 0s, width 0.2s 1s;
+      }
+
+      .text{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+      }
+
+      &:hover .bg{
+        width: 100%;
+        background-color: #e905f1;
+        transition: width 0.2s 0s, background-color 0.2s 1s;
+      }
+    }
+
+    .info{
+      position: absolute;
+      left: 100px;
+      top: 100px;
+      background-color: #ee9f9f;
+      padding: 4px;
+      border-radius: 4px;
+      white-space: nowrap;
+      transform: translateY(-20px);
+      opacity: 0;
+      transition: transform 0.2s 0.7s, opacity 0.2s 0.9s;
+
+      &::after{
+        content: "";
+        width: 0;
+        height: 0;
+        position: absolute;
+        left: 0;
+        bottom: -15px;
+        z-index: -1;
+        border-style: solid;
+        border-width: 30px 10px 0 10px;
+        border-color: #ee9f9f transparent transparent transparent;
+      }
+
+      &.active{
+        transform: translateY(0px);
+        opacity: 1;
+        /* 進入點的動畫 */
+        transition: opacity 0.2s 0.5s, transform 0.2s 0.7s;
+
+        &::after{
+          bottom: -15px;
+          transition: bottom 0.2s 0.9s;
+        }
+      }
+    }
+  </style>
+  <title>transition-4 transition控制任何元素</title>
+</head>
+<body>
+  <div class="btn" data-hover="按鈕 1 的說明">
+    <div class="bg"></div>
+    <div class="text">按鈕 1</div>
+  </div>
+
+  <div class="info">123</div>
+
+  <script>
+    const info = document.querySelector(".info");
+    const btn = document.querySelector(".btn");
+
+    btn.addEventListener("transitionend", (e) => {
+      // console.log("動畫播放結束");
+      // console.log("動畫控制的屬性: " + e.propertyName);
+      // e.target // 事件觸發的對象
+      // e.currentTarget // 事件註冊的對象
+      // console.log(e.target.parentNode); // 找上一層
+      // console.log(e.target.parentNode.matches(":hover")); // 判斷是否為滑鼠移入
+
+      if(!e.target.parentNode.matches(":hover")){
+        if(e.propertyName == "width"){
+          info.classList.remove("active")
+        }
+      }
+      
+    });
+
+    btn.addEventListener("mouseenter", (e)=>{
+      console.log("mouseenter");
+      // 取得按鈕的座標
+      const x = e.target.getBoundingClientRect().left;
+      const y = e.target.getBoundingClientRect().top - 40;
+      info.style.left = `${x}px`;
+      info.style.top = `${y}px`;
+      info.innerHTML = e.target.dataset.hover;
+      info.classList.add("active");
+    });
+
+    btn.addEventListener("mouseleave", (e)=>{
+      console.log("mouseleave");
+      // info.style.left = "-1000px";
+      // info.style.top = "-1000px";
+      // info.innerHTML = "123";
+      // info.classList.remove("active");
+    });
+  </script>
+</body>
+</html>
