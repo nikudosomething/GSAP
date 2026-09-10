@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DND-1</title>
+  <style>
+    .ball{
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: #ff9e9e;
+      &:nth-child(2){
+        background-color: #f0fa68;
+      }
+      &:nth-child(3){
+        background-color: #4bffe1;
+      }
+    }
+    .rect{
+      position:absolute;
+      top: 50px;
+      right: 50px;
+      width: 150px;
+      height: 80px;
+      background-color: #8f6767;
+      display: grid;
+      place-items: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="ball" draggable="true" data-color="#ff9e9e"></div>
+  <div class="ball" draggable="true" data-color="#f0fa68"></div>
+  <div class="ball" draggable="true" data-color="#4bffe1"></div>
+  <div class="rect">拖到這</div>
+
+  <script>
+    const balls = document.querySelectorAll(".ball")
+    const rect = document.querySelector(".rect")
+
+
+
+    //dragover拖曳 drop丟上去(拖曳的結束)
+
+
+    balls.forEach((ball)=>{
+      ball.addEventListener("dragstart", (event) => {
+        const color =  event.target.dataset.color;
+        console.log(color);
+        event.dataTransfer.setData("text/plain", color)//color的格式為純文字
+      });
+    });
+    
+    
+    rect.addEventListener("dragover",(event)=> {
+      event.preventDefault();
+    })
+
+    rect.addEventListener("drop",(event)=> {
+      event.preventDefault();
+      const data = event.dataTransfer.getData("text"); //取出文字資料回傳字串
+      console.log(data);
+      event.target.style.backgroundColor = data; //將拖曳資料的顏色套用在指定元素上
+    })
+
+  </script>
+
+</body>
+</html>
