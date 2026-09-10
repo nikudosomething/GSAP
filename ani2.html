@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-hant-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    .box{
+      position: relative;
+      width: 100px;
+      height: 100px;
+      background-color: #1496f2;
+      margin-bottom: 10px;
+
+      &.box2{
+        background-color: #f16b6b;
+      }
+
+      &.active{
+        animation-name: ani1;
+        animation-duration: 2s;
+        animation-iteration-count: infinite;
+      }
+    }
+
+    @keyframes ani1{
+      0%{
+        left: 0;
+      }
+      50%{
+        left: calc(100% - 100px);
+      }
+      100%{
+        left: 0;
+      }
+    }
+  </style>
+  <title>animation 2</title>
+</head>
+<body>
+  <div class="box active"></div>
+  <div class="box box2"></div>
+
+  <script>
+    const boxs = document.querySelectorAll(".box");
+    let count = 0;
+
+
+    boxs[0].addEventListener("animationiteration",(e)=>{
+      count++;
+      if(count >= 3){
+        boxs[1].classList.add("active")
+      }
+    })
+  </script>
+</body>
+</html>
