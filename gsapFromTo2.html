@@ -8,13 +8,22 @@
       .box {
         width: 100px;
         height: 100px;
+        left: -1000px;
         background-color: #9ee290;
+        corner-shape: squircle;
+        border-radius: 20px;
+        transform: translate(-50%,-50%);
       }
       .dot{
+        position: absolute;
+        left: -1000px;
         width: 30px;
         height: 30px;
+        corner-shape: scoop;
         border-radius: 50%;
         background-color: #6db0fd;
+        transform: translate(-50%, -50%);
+        
       }
     </style>
   </head>
@@ -24,7 +33,57 @@
 
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
     <script>
+      let stepAry = [];
+      window.addEventListener("click",function(e){
+        if(stepAry.length < 2 ){
+        stepAry.push([e.pageX,e.pageY]); //push把新資料加到陣列的最後面
+        createDot(e);
+
+          if(stepAry.length == 2){
+            console.log("播動畫");
+            gsap.fromTo(".box",{
+              x:stepAry[0][0],
+              y:stepAry[0][1]
+            },{
+              x:stepAry[1][0],
+              y:stepAry[1][1],
+              duration:2,
+              onComplete:function(){ //動畫跑完才清空
+                stepAry = [];
+              }
+            })
+          }
+        }
+      });
+
+      async function createDot(e){
+        console.log("DOT");
+        console.log(e.pageX,e.pageY);
+        const dot = document.createElement("div");
+        dot.classList.add("dot");
+        dot.style.left = `${e.pageX}px`;
+        dot.style.top = e.pageY + "px";
+        document.body.append(dot)
+
+      //   setTimeout(() => {
+      //     dot.remove();
+      //   }, 1000);
+
+      await wait(1000);
+      dot.remove();
+
+      }
+
+      function wait(ms){
+        return new Promise(function(reslove,reject){
+          setTimeout(reslove,ms)
+        })
+      }
+
+
       
+
+
     </script>
   </body>
 </html>
