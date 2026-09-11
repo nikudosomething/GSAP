@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-hant-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body{
+      height: calc(100vh - 16px);
+      display: grid;
+      place-items: center;
+    }
+    .score{
+      position: absolute;
+      width: 50%;
+      right: 16px;
+      top: 16px;
+      font-family: sans-serif;
+      font-size: 60px;
+      text-align: right;
+    }
+    .float-money{
+      position: absolute;
+      font-size: 60px;
+      font-family: sans-serif;
+      color: #ed1e1e;
+    }
+
+    button{
+      font-size: 24px;
+    }
+  </style>
+  <title>gsap js (數字)屬性</title>
+</head>
+<body>
+  <div class="score">0</div>
+  <div class="float-money">+999</div>
+  <button>加錢!</button>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
+  <script>
+    let canAdd = true;
+    let money = 0;
+    const btn = document.querySelector("button");
+    const score = document.querySelector(".score");
+    const floatMoney = document.querySelector(".float-money");
+
+    // 傳統判斷式的寫法
+    // btn.addEventListener("click", (e) => {
+    //   if(canAdd){
+    //     canAdd = false;
+    //     console.log("QQ");
+    //   }
+    // });
+    floatMoney.innerHTML = "";
+    gsap.set(".float-money", {y: -50});
+
+
+    // 否定式加上終止的寫法
+    btn.addEventListener("click", (e) => {
+      // if(!canAdd) return;
+      canAdd = false;
+      // console.log(Math.random() * 10000 + 1);
+      // console.log(Math.floor(Math.random() * 10000 + 1));  // 1~1w
+      const added = Math.floor(Math.random() * 1000 + 1) * 10 + 40;
+      const newMoney = money + added;
+
+      const obj = {
+        money: money
+      }
+
+      const tl = gsap.timeline({
+        onComplete:function(){
+          money = newMoney;
+        }
+      });
+
+      floatMoney.innerHTML = "+" + added;
+      tl.set(".float-money", {y: -50, opacity: 1});
+      tl.to(".float-money", {y: -150, opacity: 0, duration: 1});
+
+      tl.to(obj, {
+        money: newMoney,
+        duration: 1,
+        ease: "power4.out",
+        onUpdate: function(){
+          score.innerHTML = Math.round(obj.money)
+        }
+      });
+    });
+  </script>
+</body>
+</html>
