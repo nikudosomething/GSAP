@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>gsap.From-3</title>
+    <style>
+      body {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .title {
+        font-family: sans-serif;
+        font-size: 50px;
+        font-weight: bold;
+      }
+      .title span {
+        display: inline-block; /* 讓每個字可以個別縮放、位移 */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="title">滾滾長江東逝水</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
+
+    <script>
+      //抓取元素文字並清空
+      const titleDiv = document.querySelector(".title");
+      const titleText = titleDiv.innerText.trim(); //抓文字 去空白
+      titleDiv.innerHTML =  ""; //清空
+
+      titleText.split("").forEach((char)=>{ // 每次拿一個字出來
+        const span = document.createElement("span"); // 建立盒子
+        span.textContent = char; // 把字放進盒子
+        titleDiv.append(span) // 把盒子放到標題裡
+
+      })
+
+
+      requestIdleCallback(() => {
+        gsap.from(".title span", {
+          duration: 1,
+          opacity: 0,
+          scale: 2,
+          stagger:0.5
+        });
+      });
+    </script>
+  </body>
+</html>
