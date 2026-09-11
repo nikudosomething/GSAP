@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="zh-hant-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body{
+        font-family: sans-serif;
+        height: calc(100vh - 16px);
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+      }
+
+      .dropdown{
+        position: relative;
+        width: 200px;
+        button{
+          width: 100%;
+          font-size: 20px;
+          padding: 12px;
+        }
+        .menu{
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+          margin-top: 4px;
+          background-color: #07b1ee;
+          .item{
+            background-color: #e3e2e2;
+            padding: 8px 12px;
+            border-radius: 4px;
+            opacity: 0;
+          }
+        }
+      }
+    </style>
+    <title>時間軸 做 下拉式選單</title>
+  </head>
+  <body>
+    <div class="dropdown">
+      <button>選單 ▼</button>
+      <div class="menu">
+        <!-- .item*4>{選項 $} -->
+        <div class="item">選項 1</div>
+        <div class="item">選項 2</div>
+        <div class="item">選項 3</div>
+        <div class="item">選項 4</div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/GSDevTools.min.js"></script>
+
+    <script>
+      const btn = document.querySelector("button");
+      const items = document.querySelectorAll(".item");
+      console.log(items);
+      
+      // gsap.registerPlugin(GSDevTools);
+      // GSDevTools.create();
+
+      const tl = gsap.timeline({paused: true});
+      gsap.set(".menu", { height: 0 });
+      tl.to(".menu", {
+        height: "auto",
+        duration: 0
+      });
+      tl.to(items, {
+        opacity: 1,
+        y: 0,
+        duration: 0.3,
+        stagger: 0.1
+      });
+
+      let isOpen = false;
+
+      btn.addEventListener("click", () => {
+        if(isOpen == false){
+          tl.timeScale(1).play();
+          isOpen = true;
+        }else{
+          // isOpen = true
+          tl.timeScale(5).reverse();
+          isOpen = false;
+        }
+        // isOpen = !isOpen;
+      })
+
+    </script>
+  </body>
+</html>
